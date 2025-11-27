@@ -7,10 +7,13 @@
     <meta name="description" content="વાસ્તુ પૂજનનું હાર્દિક આમંત્રણ.">
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- PDF Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@300;400;500;600;700;800&family=Great+Vibes&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Palette: Muted Saffron, Antique Gold, Soft Cream */
             --saffron-muted: #D27D2D;
             --saffron-light: #E8A87C;
             --gold-antique: #C5A059;
@@ -24,7 +27,6 @@
         body {
             font-family: 'Noto Sans Gujarati', sans-serif;
             background-color: var(--cream-bg);
-            /* Subtle Pattern Background */
             background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C5A059' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         }
 
@@ -34,7 +36,6 @@
             border: 1px solid var(--gold-antique);
         }
 
-        /* Gold Foil Effect for Text */
         .text-gold-foil {
             background: linear-gradient(to bottom, var(--gold-antique) 0%, #B8860B 50%, #A08040 100%);
             -webkit-background-clip: text;
@@ -48,19 +49,14 @@
         .text-light { color: var(--text-light); }
         .text-maroon { color: var(--maroon-deep); }
 
-        /* Refined Border Design */
         .border-refined {
             border: 1.5px solid var(--gold-antique);
             border-radius: 24px;
-            /* Removed backdrop-filter to fix PDF generation issues */
             background-color: rgba(255, 255, 255, 0.85); 
         }
 
-        /* Animations */
         .sway { animation: sway 3s ease-in-out infinite alternate; }
         @keyframes sway { 0% { transform: rotate(-1deg); } 100% { transform: rotate(1deg); } }
-
-        /* Slower sway for side decorations */
         .sway-slow { animation: sway 5s ease-in-out infinite alternate; }
 
         .fade-up {
@@ -73,7 +69,6 @@
         .float-om { animation: float 6s ease-in-out infinite; }
         @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
 
-        /* Buttons */
         .btn-primary {
             background: linear-gradient(180deg, var(--saffron-muted), #B86828);
             border: 1px solid var(--gold-antique);
@@ -99,7 +94,6 @@
             transform: translateY(-1px);
         }
 
-        /* Divider Line */
         .ornamental-divider {
             display: flex;
             align-items: center;
@@ -116,6 +110,22 @@
             margin: 0 10px;
         }
 
+        /* Specific fix to force layout during PDF generation if needed */
+        .pdf-mode {
+            width: 400px !important;
+            margin: 0 auto !important;
+            display: flex !important;
+            flex-direction: column !important;
+        }
+        .pdf-mode .desktop-split {
+            display: flex !important;
+            flex-direction: column !important;
+        }
+        .pdf-mode .desktop-col-1, .pdf-mode .desktop-col-2 {
+            width: 100% !important;
+            border: none !important;
+        }
+
         @media (max-width: 340px) {
             .mantra-text { font-size: 8px !important; }
             .date-number { font-size: 3rem !important; }
@@ -130,11 +140,9 @@
         <svg height="100%" viewBox="0 0 20 600" preserveAspectRatio="none">
             <line x1="10" y1="0" x2="10" y2="600" stroke="#6B8E23" stroke-width="2"/>
             <g class="flowers">
-                <!-- Using patterns for flowers -->
                 <defs>
                     <circle id="flower" cx="0" cy="0" r="8" fill="var(--saffron-muted)" stroke="#C5A059" stroke-width="1"/>
                 </defs>
-                <!-- Repeating flowers -->
                 <use href="#flower" x="10" y="30" />
                 <use href="#flower" x="10" y="60" />
                 <use href="#flower" x="10" y="90" />
@@ -150,8 +158,6 @@
                 <use href="#flower" x="10" y="390" />
                 <use href="#flower" x="10" y="420" />
                 <use href="#flower" x="10" y="450" />
-                
-                <!-- Bell at bottom -->
                 <path d="M5 470 Q10 460 15 470 L18 490 Q10 500 2 490 Z" fill="#F4D078" stroke="#B8860B" />
                 <circle cx="10" cy="490" r="2" fill="#B8860B"/>
             </g>
@@ -176,8 +182,6 @@
                 <use href="#flower2" x="10" y="240" />
                 <use href="#flower2" x="10" y="270" />
                 <use href="#flower2" x="10" y="300" />
-                
-                <!-- Bell at bottom -->
                 <path d="M5 320 Q10 310 15 320 L18 340 Q10 350 2 340 Z" fill="#F4D078" stroke="#B8860B" />
                 <circle cx="10" cy="340" r="2" fill="#B8860B"/>
             </g>
@@ -189,7 +193,7 @@
     <div class="fixed bottom-1/4 right-1/4 text-gold-antique opacity-5 hidden lg:block float-om font-serif text-6xl pointer-events-none" style="animation-delay: 2s;">🕉️</div>
 
 
-    <!-- Card Container: Mobile (Vertical) -> Desktop (Horizontal/Wide) -->
+    <!-- Card Container -->
     <div id="invite-card" class="main-card relative w-full max-w-[400px] lg:max-w-5xl rounded-[30px] overflow-hidden p-1.5 transition-all duration-500 ease-in-out z-10">
         
         <div class="border-refined w-full h-full relative px-4 sm:px-5 py-6 flex flex-col lg:flex-row items-center lg:items-stretch lg:justify-center text-center rounded-[24px]">
@@ -197,7 +201,7 @@
             <!-- DESKTOP GRID LAYOUT WRAPPER -->
             <div class="desktop-split w-full flex flex-col lg:grid lg:grid-cols-2 lg:gap-8 items-center lg:items-center">
 
-                <!-- === LEFT COLUMN (Visuals & Titles) === -->
+                <!-- === LEFT COLUMN (Title & Visuals) === -->
                 <div class="desktop-col-1 w-full flex flex-col items-center justify-center relative">
                     
                     <!-- TORAN -->
@@ -223,7 +227,7 @@
                         </svg>
                     </div>
 
-                    <!-- Subtle Mandala Background (Moved to Left Col) -->
+                    <!-- Subtle Mandala Background -->
                     <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-[0.05] pointer-events-none">
                         <svg class="w-80 h-80 text-saffron" viewBox="0 0 100 100" fill="currentColor">
                             <path d="M50 0L55 15L70 5L75 20L90 15L85 30L100 35L85 45L95 60L75 65L80 80L65 75L60 90L50 75L40 90L35 75L20 80L25 65L5 60L15 45L0 35L15 30L10 15L25 20L30 5L45 15L50 0Z" />
@@ -236,6 +240,8 @@
                             <span>|| જય બુટ ભવાની માં ||</span>
                             <span class="opacity-50 text-[8px]">•</span>
                             <span>|| જય સ્વામિનારાયણ ||</span>
+                            <span class="opacity-50 text-[8px]">•</span>
+                            <span>|| શ્રી ગણેશાય નમઃ ||</span>
                         </div>
                         
                         <!-- Ganesha Icon -->
@@ -269,6 +275,16 @@
                         </div>
                     </div>
 
+                    <!-- Invocation (Moved to Left Col) -->
+                    <div class="fade-up delay-100 z-10 w-full px-2 mt-4">
+                        <p class="text-light text-sm lg:text-base font-medium leading-relaxed tracking-wide mb-2 px-2">
+                            સહર્ષ જણાવવાનું કે અમારા કુળદેવી શ્રી બુટભવાની માતાજીની અસીમ કૃપાથી તેમજ માતા-પિતાના આશીર્વાદથી
+                        </p>
+                        <p class="text-saffron font-semibold text-base lg:text-lg">
+                            અમારા નૂતન નિવાસનું
+                        </p>
+                    </div>
+
                     <!-- Main Title -->
                     <div class="fade-up delay-200 my-5 z-10 w-full">
                         <h1 class="text-5xl lg:text-7xl font-extrabold text-gold-foil tracking-tight py-2 leading-tight">
@@ -277,8 +293,15 @@
                         <div class="text-saffron text-lg lg:text-2xl font-bold mt-1 tracking-wider">(ગૃહ પ્રવેશ)</div>
                     </div>
 
+                    <!-- Closing Line (Added) -->
+                    <div class="fade-up delay-200 z-10 w-full px-2 lg:mb-4">
+                        <p class="text-light text-sm lg:text-base font-medium leading-relaxed tracking-wide">
+                            ના શુભ પ્રસંગે પધારવા આપને અમારું હાર્દિક આમંત્રણ છે.
+                        </p>
+                    </div>
+
                     <!-- Date Box (Desktop Only - Left Side) -->
-                    <div class="hidden lg:block fade-up delay-300 mt-8 mb-4 w-full px-8 z-10">
+                    <div class="hidden lg:block fade-up delay-300 mt-4 mb-4 w-full px-8 z-10">
                         <div class="relative border border-gold-antique bg-white/95 rounded-2xl p-5 shadow-sm overflow-hidden">
                             <div class="text-center mb-5">
                                 <span class="text-saffron font-bold text-[10px] tracking-wide uppercase border-b border-gold-antique pb-1">શુભ મુહૂર્ત</span>
@@ -329,18 +352,8 @@
                 <!-- === RIGHT COLUMN (Details) === -->
                 <div class="desktop-col-2 w-full flex flex-col items-center justify-center lg:border-l lg:border-gold-antique/30 lg:pl-8">
                     
-                    <!-- Invocation -->
-                    <div class="fade-up delay-100 z-10 w-full px-2 mt-4 lg:mt-0">
-                        <p class="text-light text-sm lg:text-base font-medium leading-relaxed tracking-wide mb-2 px-2">
-                            સહર્ષ જણાવવાનું કે અમારા કુળદેવી શ્રી બુટભવાની માતાજીની અસીમ કૃપાથી તેમજ માતા-પિતાના આશીર્વાદથી
-                        </p>
-                        <p class="text-saffron font-semibold text-base lg:text-lg">
-                            અમારા નૂતન નિવાસના
-                        </p>
-                    </div>
-
                     <!-- Host Names -->
-                    <div class="fade-up delay-300 z-10 mt-6">
+                    <div class="fade-up delay-300 z-10 mt-6 lg:mt-0">
                         <p class="text-xs text-light uppercase tracking-widest mb-3 font-semibold">નિમંત્રક</p>
                         <div class="space-y-3">
                             <h2 class="text-base lg:text-lg font-bold text-dark leading-snug">
@@ -449,7 +462,7 @@
                     .then(() => console.log('Shared successfully'))
                     .catch((err) => console.log('Error sharing:', err));
             } else {
-                const text = `વાસ્તુ પૂજન નિમંત્રણ\n\nજીનેશ અને પ્રીતિ સોની તરફથી વાસ્તુ પૂજનનું હાર્દિક આમંત્રણ.\n\n📅 તારીખ: ૦૫ ડિસેમ્બર ૨૦૨૫\n🕙 વાસ્તુ પૂજન: સવારે ૧૦:૦૦ કલાકે\n🥥 શ્રીફળ હોમવાનું: બપોરે ૧૨:૦૦ કલાકે\n📍 સ્થળ: બી ૧૦૦૨, એકાર્થ વન, કુડાસણ પોર રોડ, કુડાસણ, ગાંધીનગર.\n🍽️ ભોજન સ્થળ: રાધે થાળ, સરગાસણ, ગાંધીનગર.\n\nવિગતવાર આમંત્રણ માટે લિંક જુઓ: ${window.location.href}`;
+                const text = `વાસ્તુ પૂજનનું હાર્દિક આમંત્રણ.\n\n📅 તારીખ: ૦૫ ડિસેમ્બર ૨૦૨૫\n🕙 વાસ્તુ પૂજન: સવારે ૧૦:૦૦ કલાકે\n🥥 શ્રીફળ હોમવાનું: બપોરે ૧૨:૦૦ કલાકે\n📍 સ્થળ: બી ૧૦૦૨, એકાર્થ વન, કુડાસણ પોર રોડ, કુડાસણ, ગાંધીનગર.\n🍽️ ભોજન સ્થળ: રાધે થાળ, સરગાસણ, ગાંધીનગર.\n\nવિગતવાર આમંત્રણ માટે લિંક જુઓ: ${window.location.href}`;
                 
                 const textarea = document.createElement('textarea');
                 textarea.value = text;
